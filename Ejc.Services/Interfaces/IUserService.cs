@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Ejc.Auth.Repository.Interfaces;
 using Ejc.Entities;
 
-namespace Ejc.Auth.Services.Interfaces
+namespace Ejc.Services.Interfaces
 {
     public interface IUserService
     {

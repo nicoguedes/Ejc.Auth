@@ -1,16 +1,20 @@
 ﻿using Ejc.Auth.Repository.Interfaces;
 using Ejc.Entities;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MongoDB.Driver;
+
 
 namespace Ejc.Repository
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
+        public UserRepository(IConfiguration config) : base(config) { }
         public User Authenticate(string email, string password)
         {
-            throw new NotImplementedException();
+            return _collection.Find<User>(o => o.Email == email && o.Password == password).FirstOrDefault();
         }
     }
 }

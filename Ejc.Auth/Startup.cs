@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Ejc.Auth.Repository.Interfaces;
-using Ejc.Auth.Services;
-using Ejc.Auth.Services.Interfaces;
+using Ejc.Services;
+using Ejc.Services.Interfaces;
+using Ejc.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,8 +28,12 @@ namespace Ejc.Auth
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSingleton(_ => Configuration);
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<Entities.AppSettings>(appSettingsSection);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +42,17 @@ namespace Ejc.Auth
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    IUserRepository userRepo = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+
+                    if (!userRepo.GetAll().Any())
+                    {
+                        userRepo.Create(new Entities.User() { Email = "viniciusmpg@gmail.com", Password = "123", Name = "Vinicius" });
+                        userRepo.Create(new Entities.User() { Email = "renatompg@gmail.com", Password = "123", Name = "Renato" });
+                    }
+                }
+                
             }
             else
             {
@@ -47,7 +61,10 @@ namespace Ejc.Auth
             }
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute("default", "{controller=Users}/{action=GetUsers}/{id?}");
+            });
         }
     }
 }

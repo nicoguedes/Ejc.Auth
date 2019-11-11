@@ -1,35 +1,47 @@
 ﻿using Ejc.Repository.Interfaces;
+using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Ejc.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T>
     {
-        public T Create(T obj)
+        protected readonly IMongoCollection<T> _collection;
+
+        public GenericRepository(IConfiguration config)
         {
-            throw new NotImplementedException();
+            var client = new MongoClient(config.GetConnectionString("MongoDatabase"));
+            var database = client.GetDatabase("UsersDb");
+            _collection = database.GetCollection<T>(typeof(T).Name);
         }
 
-        public void Delete(string id)
+        public T Create(T obj)
         {
-            throw new NotImplementedException();
+            _collection.InsertOne(obj);
+            return obj;
         }
 
         public IList<T> GetAll()
         {
-            throw new NotImplementedException();
+            return _collection.Find(o => true).ToList();
         }
 
         public T GetById(string id)
         {
-            throw new NotImplementedException();
+            return _collection.Find<T>(o => Convert.ToString(o.GetType().GetProperty("Id").GetValue(o, null)) == id).FirstOrDefault();
+        }
+
+        public void Delete(string id)
+        {
+            _collection.DeleteOne(o => Convert.ToString(o.GetType().GetProperty("Id").GetValue(o, null)) == id);
         }
 
         public T Update(string id, T obj)
         {
-            throw new NotImplementedException();
+            _collection.ReplaceOne(o => Convert.ToString(o.GetType().GetProperty("Id").GetValue(o, null)) == id, obj);
+            return obj;
         }
     }
 }

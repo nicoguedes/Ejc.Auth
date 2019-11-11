@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ejc.Auth", "Ejc.Auth\Ejc.Auth.csproj", "{74DF7895-46B7-41D3-AACF-3289AA973A79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ejc.Auth", "Ejc.Auth\Ejc.Auth.csproj", "{74DF7895-46B7-41D3-AACF-3289AA973A79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ejc.Repository", "Ejc.Repository\Ejc.Repository.csproj", "{D0847D47-D7B5-438A-AC77-E35D6D072C82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ejc.Repository", "Ejc.Repository\Ejc.Repository.csproj", "{D0847D47-D7B5-438A-AC77-E35D6D072C82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ejc.Entities", "Ejc.Entities\Ejc.Entities.csproj", "{A950EB29-40E8-41F0-92D7-EAF7D3544E84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ejc.Entities", "Ejc.Entities\Ejc.Entities.csproj", "{A950EB29-40E8-41F0-92D7-EAF7D3544E84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ejc.Tests", "Ejc.Tests\Ejc.Tests.csproj", "{720D2D8D-2193-4D16-9A52-BAA8FDF76ABD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ejc.Tests", "Ejc.Tests\Ejc.Tests.csproj", "{720D2D8D-2193-4D16-9A52-BAA8FDF76ABD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ejc.Jwt", "Ejc.Jwt\Ejc.Jwt.csproj", "{EB9D2D1D-BC2A-4F68-9877-EBA10644482C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ejc.Services", "Ejc.Services\Ejc.Services.csproj", "{9D99E3F0-0F61-4B32-9354-127D08AE0822}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{720D2D8D-2193-4D16-9A52-BAA8FDF76ABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{720D2D8D-2193-4D16-9A52-BAA8FDF76ABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{720D2D8D-2193-4D16-9A52-BAA8FDF76ABD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB9D2D1D-BC2A-4F68-9877-EBA10644482C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB9D2D1D-BC2A-4F68-9877-EBA10644482C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB9D2D1D-BC2A-4F68-9877-EBA10644482C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB9D2D1D-BC2A-4F68-9877-EBA10644482C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D99E3F0-0F61-4B32-9354-127D08AE0822}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D99E3F0-0F61-4B32-9354-127D08AE0822}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D99E3F0-0F61-4B32-9354-127D08AE0822}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D99E3F0-0F61-4B32-9354-127D08AE0822}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
