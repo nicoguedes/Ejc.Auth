@@ -28,6 +28,7 @@ namespace Ejc.Auth
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddCors();
             services.AddSingleton(_ => Configuration);
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -52,7 +53,7 @@ namespace Ejc.Auth
                         userRepo.Create(new Entities.User() { Email = "renatompg@gmail.com", Password = "123", Name = "Renato" });
                     }
                 }
-                
+                app.UseCors(options => options.AllowAnyHeader().AllowAnyOrigin());
             }
             else
             {
