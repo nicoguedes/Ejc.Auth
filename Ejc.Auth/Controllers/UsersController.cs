@@ -2,10 +2,11 @@
 using Ejc.Entities;
 using Ejc.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Ejc.Auth.Repository.Interfaces;
+using Ejc.Repository.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
-namespace Ejc.Auth.Controllers
+namespace Ejc.Api.Controllers
 {
     [Route("api/[controller]")]
     public class UsersController : Controller
@@ -18,19 +19,13 @@ namespace Ejc.Auth.Controllers
             _userService.Initialize(userRepository);
         }
 
-        [HttpGet("test")]
-        public IActionResult GetUsers()
-        {
-            return Ok(new { abc = "123" });
-        }
-
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]User userParam)
+        public async Task<IActionResult> Authenticate([FromBody]User userParam)
         {
             try
             {
-                var user = _userService.Authenticate(userParam.Email, userParam.Password);
+                var user = await _userService.AuthenticateAsync(userParam.Email, userParam.Password);
                 return Ok(user);
             }
             catch (AuthenticationException exception)

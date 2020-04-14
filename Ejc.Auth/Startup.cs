@@ -1,19 +1,15 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Ejc.Auth.Repository.Interfaces;
+﻿using Ejc.Repository;
+using Ejc.Repository.Interfaces;
 using Ejc.Services;
 using Ejc.Services.Interfaces;
-using Ejc.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using System.Linq;
 
-namespace Ejc.Auth
+namespace Ejc.Api
 {
     public class Startup
     {
@@ -31,7 +27,10 @@ namespace Ejc.Auth
             services.AddCors();
             services.AddSingleton(_ => Configuration);
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
+
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<Entities.AppSettings>(appSettingsSection);
@@ -47,13 +46,14 @@ namespace Ejc.Auth
                 {
                     IUserRepository userRepo = scope.ServiceProvider.GetRequiredService<IUserRepository>();
 
-                    if (!userRepo.GetAll().Any())
-                    {
-                        userRepo.Create(new Entities.User() { Email = "viniciusmpg@gmail.com", Password = "123", Name = "Vinicius" });
-                        userRepo.Create(new Entities.User() { Email = "renatompg@gmail.com", Password = "123", Name = "Renato" });
-                    }
+                    //var users = await userRepo.GetAllAsync();
+                    //if (!users.Any())
+                    //{
+                    //    await userRepo.CreateAsync(new Entities.User() { Email = "viniciusmpg@gmail.com", Password = "123", Name = "Vinicius" });
+                    //    await userRepo.CreateAsync(new Entities.User() { Email = "renatompg@gmail.com", Password = "123", Name = "Renato" });
+                    //}
                 }
-                app.UseCors(options => options.AllowAnyHeader().AllowAnyOrigin());
+                app.UseCors(options => options.AllowAnyHeader().AllowAnyOrigin().WithMethods("POST", "PUT", "DELETE", "GET"));
             }
             else
             {

@@ -1,8 +1,10 @@
 ﻿using Ejc.Repository.Interfaces;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Ejc.Repository
 {
@@ -13,34 +15,42 @@ namespace Ejc.Repository
         public GenericRepository(IConfiguration config)
         {
             var client = new MongoClient(config.GetConnectionString("MongoDatabase"));
-            var database = client.GetDatabase("UsersDb");
+            var database = client.GetDatabase("ejcdb");
             _collection = database.GetCollection<T>(typeof(T).Name);
         }
 
-        public T Create(T obj)
+        private FilterDefinition<T> GetIdFilter(string id)
         {
-            _collection.InsertOne(obj);
+            return Builders<T>.Filter.Eq("Id", id);
+        }
+
+        public async Task<T> CreateAsync(T obj)
+        {
+            await _collection.InsertOneAsync(obj);
             return obj;
         }
 
-        public IList<T> GetAll()
+        public async Task<IList<T>> GetAllAsync()
         {
-            return _collection.Find(o => true).ToList();
+            var result = await _collection.FindAsync(o => true);
+            return result.ToList();
         }
 
-        public T GetById(string id)
+        public async Task<T> GetByIdAsync(string id)
         {
-            return _collection.Find<T>(o => Convert.ToString(o.GetType().GetProperty("Id").GetValue(o, null)) == id).FirstOrDefault();
+            var result = await _collection.FindAsync<T>(GetIdFilter(id));
+
+            return result.FirstOrDefault();
         }
 
-        public void Delete(string id)
+        public async Task DeleteAsync(string id)
         {
-            _collection.DeleteOne(o => Convert.ToString(o.GetType().GetProperty("Id").GetValue(o, null)) == id);
+            await _collection.DeleteOneAsync(GetIdFilter(id));
         }
 
-        public T Update(string id, T obj)
+        public async Task<T> UpdateAsync(string id, T obj)
         {
-            _collection.ReplaceOne(o => Convert.ToString(o.GetType().GetProperty("Id").GetValue(o, null)) == id, obj);
+            await _collection.ReplaceOneAsync(GetIdFilter(id), obj);
             return obj;
         }
     }

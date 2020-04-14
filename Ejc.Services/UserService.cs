@@ -1,10 +1,10 @@
 ﻿using Ejc.Entities;
-using Ejc.Services.Interfaces;
-using Ejc.Auth.Repository.Interfaces;
-using System.Security.Authentication;
-using Microsoft.Extensions.Configuration;
 using Ejc.Jwt;
+using Ejc.Repository.Interfaces;
+using Ejc.Services.Interfaces;
 using Microsoft.Extensions.Options;
+using System.Security.Authentication;
+using System.Threading.Tasks;
 
 namespace Ejc.Services
 {
@@ -21,9 +21,9 @@ namespace Ejc.Services
         {
             _repository = repository;
         }
-        public User Authenticate(string email, string password)
+        public async Task<User> AuthenticateAsync(string email, string password)
         {
-            User user = _repository.Authenticate(email, password);
+            User user = await _repository.AuthenticateAsync(email, password);
 
             if (user == null)
                 throw new AuthenticationException("Invalid username or password.");

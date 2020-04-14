@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Ejc.Repository.Interfaces
 {
     public interface IGenericRepository<T>
     {
-        T Create(T obj);
-        T Update(string id, T obj);
-        T GetById(string id);
-        IList<T> GetAll();
-        void Delete(string id);
+        Task<T> CreateAsync(T obj);
+        Task<T> UpdateAsync(string id, T obj);
+        Task<T> GetByIdAsync(string id);
+        Task<IList<T>> GetAllAsync();
+        Task DeleteAsync(string id);
     }
 }

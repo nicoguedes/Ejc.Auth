@@ -1,20 +1,18 @@
-﻿using Ejc.Auth.Repository.Interfaces;
-using Ejc.Entities;
+﻿using Ejc.Entities;
+using Ejc.Repository.Interfaces;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using MongoDB.Driver;
-
+using System.Threading.Tasks;
 
 namespace Ejc.Repository
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
         public UserRepository(IConfiguration config) : base(config) { }
-        public User Authenticate(string email, string password)
+        public async Task<User> AuthenticateAsync(string email, string password)
         {
-            return _collection.Find<User>(o => o.Email == email && o.Password == password).FirstOrDefault();
+            var result = await _collection.FindAsync<User>(o => o.Email == email && o.Password == password);
+            return result.FirstOrDefault();
         }
     }
 }
