@@ -8,12 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
+    <PackageReference Include="Moq" Version="4.13.1" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ejc.Auth\Ejc.Api.csproj" />
+    <ProjectReference Include="..\Ejc.Repository\Ejc.Repository.csproj" />
+    <ProjectReference Include="..\Ejc.Services\Ejc.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -30,7 +30,7 @@ namespace Ejc.Api
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPersonRepository, PersonRepository>();
-
+            services.AddAuthentication(options => options.add);
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<Entities.AppSettings>(appSettingsSection);
@@ -42,17 +42,6 @@ namespace Ejc.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                using (var scope = app.ApplicationServices.CreateScope())
-                {
-                    IUserRepository userRepo = scope.ServiceProvider.GetRequiredService<IUserRepository>();
-
-                    //var users = await userRepo.GetAllAsync();
-                    //if (!users.Any())
-                    //{
-                    //    await userRepo.CreateAsync(new Entities.User() { Email = "viniciusmpg@gmail.com", Password = "123", Name = "Vinicius" });
-                    //    await userRepo.CreateAsync(new Entities.User() { Email = "renatompg@gmail.com", Password = "123", Name = "Renato" });
-                    //}
-                }
                 app.UseCors(options => options.AllowAnyHeader().AllowAnyOrigin().WithMethods("POST", "PUT", "DELETE", "GET"));
             }
             else

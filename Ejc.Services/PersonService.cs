@@ -1,6 +1,7 @@
 ﻿using Ejc.Entities;
 using Ejc.Repository.Interfaces;
 using Ejc.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -37,9 +38,11 @@ namespace Ejc.Services
             return result;
         }
 
-        public async Task<Person> UpdateAsync(Person p)
+        public async Task<Person> UpdateAsync(string id, Person p)
         {
-            var result = await _repository.UpdateAsync(p.Id, p);
+            p.Id = id;
+            p.DateOfBirth = p.DateOfBirth.Date;
+            var result = await _repository.UpdateAsync(id, p);
             return result;
         }
 

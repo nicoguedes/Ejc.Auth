@@ -12,7 +12,7 @@ namespace Ejc.Services.Interfaces
         Task<IList<Person>> GetByNameAsync(string name);
         Task<Person> GetByIdAsync(string id);
         Task<Person> CreateAsync(Person p);
-        Task<Person> UpdateAsync(Person p);
+        Task<Person> UpdateAsync(string id, Person p);
         Task DeleteAsync(string id);
         Task<IList<string>> GetTagsAsync(string fieldName);
     }

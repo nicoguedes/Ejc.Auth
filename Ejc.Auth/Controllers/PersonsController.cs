@@ -7,6 +7,7 @@ using Ejc.Entities;
 using Ejc.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ejc.Api.Controllers
 {
@@ -48,9 +49,9 @@ namespace Ejc.Api.Controllers
 
         // PUT: api/Person/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] Person person)
+        public async Task<IActionResult> Put(string id, [FromBody] Person person)
         {
-            Person p = await _personService.UpdateAsync(person);
+            Person p = await _personService.UpdateAsync(id, person);
             return Ok(p);
         }
 
